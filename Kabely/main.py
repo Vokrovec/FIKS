@@ -1,11 +1,9 @@
 import math
-import sys
 
 with open("input.txt", "r") as file:
     inp = file.read()
     
 def calculate_angle(x, y):
-    # Vypočítá úhel vzhledem k počátečnímu bodu (0, 0)
     return math.atan2(y, x)
 class Device:
     def __init__(self, x, y, name):
@@ -29,15 +27,9 @@ class Task:
         d = Device(x, y, name)
         self.devices.append(d)
     def sort_devices(self):
-
-        # Seřaď body podle úhlu vzhledem k počátečnímu bodu
-        self.devices = sorted(self.devices, key=lambda dev: calculate_angle(dev.x, dev.y))
-        for i in range(len(self.devices)-1):
-            if calculate_angle(self.devices[i].x, self.devices[i].y) == calculate_angle(self.devices[i+1].x, self.devices[i+1].y):
-                if self.devices[i].x > self.devices[i+1].x:
-                    self.devices[i], self.devices[i+1] = self.devices[i+1], self.devices[i]
-                if self.devices[i].y < self.devices[i+1].y:
-                    self.devices[i], self.devices[i+1] = self.devices[i+1], self.devices[i]
+        starting_point = self.x /2, self.y/2
+        self.devices = sorted(self.devices, key=lambda dev: calculate_angle(dev.x - starting_point[0], dev.y - starting_point[1]))
+        print(self.devices)
     def __repr__(self) -> str:
         string = f"{self.x}, {self.y}, {self.devices}"
         return string
